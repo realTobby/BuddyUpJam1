@@ -28,7 +28,12 @@ public class Interactable : MonoBehaviour
             case InteractableType.NPC:
                 MyInteractions = this.gameObject.AddComponent<NPC_ForrestGurdian>();
                 NPC_ForrestGurdian npc = MyInteractions as NPC_ForrestGurdian;
-                npc.InitNPCLines(dialogLines);
+                npc.SetDialog(dialogLines);
+                break;
+            case InteractableType.Sign:
+                MyInteractions = this.gameObject.AddComponent<DebugSign>();
+                DebugSign sign = MyInteractions as DebugSign;
+                sign.SetDialog(dialogLines);
                 break;
         }
         MyInteractions.InitInteractions(this);

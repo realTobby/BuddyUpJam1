@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
+    void SetDialog(string[] lines);
     void InitInteractions(Interactable parent);
     string GetInteractionKey();
     string GetInteractionTitle();

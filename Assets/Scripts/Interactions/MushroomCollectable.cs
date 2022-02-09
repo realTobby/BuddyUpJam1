@@ -31,4 +31,8 @@ public class MushroomCollectable : MonoBehaviour, IInteractable
         myParentInteractable = parent;
     }
 
+    public void SetDialog(string[] lines)
+    {
+        throw new System.NotImplementedException();
+    }
 }

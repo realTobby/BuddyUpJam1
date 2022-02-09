@@ -21,6 +21,9 @@ public class CinemaController : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        DialogSystem.OnDialogClosed += EndCinematic;
+
     }
     #endregion
 
@@ -36,17 +39,49 @@ public class CinemaController : MonoBehaviour
 
     public void StartCinematic()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = false;
-        OriginalCameraPosOnPlayer = this.transform.position;
-        CinemaBorders.SetActive(true);
+        StartCoroutine(InitCinema());
     }
+
+    public void StartCinematic(Vector3 cameraPos, Transform lookAtTarget)
+    {
+        StartCoroutine(InitCinema(cameraPos, lookAtTarget));
+    }
+
+    private IEnumerator InitCinema(Vector3 cameraPos, Transform lookAtTarget)
+    {
+        DetachCameraFromPlayer();
+        FadeOut();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = false;
+        yield return new WaitForSeconds(0.5f);
+        CinemaBorders.SetActive(true);
+        MoveCamera(cameraPos, lookAtTarget);
+        FadeIn();
+    }
+
+    private IEnumerator InitCinema()
+    {
+        DetachCameraFromPlayer();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = false;
+        FadeOut();
+        yield return new WaitForSeconds(0.5f);
+        CinemaBorders.SetActive(true);
+        FadeIn();
+    }
+
 
     public void EndCinematic()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = true;
-        this.transform.position = OriginalCameraPosOnPlayer;
+        StartCoroutine(CloseCinema());
+    }
+
+    private IEnumerator CloseCinema()
+    {
+        FadeOut();
+        yield return new WaitForSeconds(0.5f);
         CinemaBorders.SetActive(false);
         AttachCameraToPlayer();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = true;
+        FadeIn();
     }
 
     public void FadeOut()
@@ -69,10 +104,12 @@ public class CinemaController : MonoBehaviour
     public void DetachCameraFromPlayer()
     {
         this.gameObject.transform.parent = null;
+        OriginalCameraPosOnPlayer = this.gameObject.transform.position;
     }
 
     public void AttachCameraToPlayer()
     {
+        this.gameObject.transform.position = OriginalCameraPosOnPlayer;
         this.gameObject.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
     }
 

@@ -8,87 +8,83 @@ public class NPC_ForrestGurdian : MonoBehaviour, IInteractable
 
     private Vector3 PlayerOriginalPos;
 
-    string[] myNPCLines;
-    
-    public void ExecuteInteraction()
+    string[] DialogBeforeQuest;
+    string[] DialogWhileQuest;
+    string[] DialogAfterQuest;
+
+    public bool CanGiveQuest = true;
+
+    public GameObject demoobject;
+
+    private IEnumerator GetQuest()
     {
-        // init cutscene with dialog system
-
-        StartCoroutine(nameof(InitDialog));
-
-
+        CanGiveQuest = false;
+        CinemaController.Instance.StartCinematic(new Vector3(3.5f, 15, -16f), this.transform);
+        yield return new WaitForSeconds(0.5f);
+        DialogSystem.Instance.StartDialogSystem(DialogBeforeQuest);
+        ObjectiveController.Instance.SetObjective(ObjectiveController.Instance.gameObject.AddComponent<ObjectiveCollectMushrooms>());
+        yield break;
     }
 
-
-    public void InitNPCLines(string[] lines)
+    private IEnumerator TurnInQuest()
     {
-        myNPCLines = lines;
+        CinemaController.Instance.StartCinematic(new Vector3(3.5f, 15, -16f), this.transform);
+        yield return new WaitForSeconds(0.5f);
+        DialogSystem.Instance.StartDialogSystem(DialogAfterQuest);
+        ObjectiveController.Instance.FinishObjective();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAbilities>().AbilityRun = true;
+        yield break;
     }
 
-    public IEnumerator InitDialog()
+    private IEnumerator TalkWhileQuest()
     {
-        CinemaController.Instance.FadeOut();
+        CinemaController.Instance.StartCinematic(new Vector3(3.5f, 15, -16f), this.transform);
+        yield return new WaitForSeconds(0.5f);
+        DialogSystem.Instance.StartDialogSystem(DialogWhileQuest);
+        yield break;
+    }
 
-        yield return new WaitForSeconds(1f);
+    private IEnumerator ThankDemoText()
+    {
+        CinemaController.Instance.StartCinematic(new Vector3(3.5f, 15, -16f), this.transform);
+        yield return new WaitForSeconds(0.5f);
+        DialogSystem.Instance.StartDialogSystem(new string[] {"You reached the true ending!", "Watch me change my form lol", "(Try talking to the red wall)"});
 
-        // DO MAGIC
-
-        PlayerOriginalPos = GameObject.FindGameObjectWithTag("Player").transform.position;
-
-        CinemaController.Instance.StartCinematic();
-
-        CinemaController.Instance.DetachCameraFromPlayer();
-
-        CinemaController.Instance.MoveCamera(new Vector3(3.5f, 15, -16f), this.transform);
-
-        yield return new WaitForSeconds(2f);
-
-        CinemaController.Instance.FadeIn();
-
-        DialogSystem.Instance.StartDialogSystem(myNPCLines);
-
-        if(ObjectiveController.Instance.HasObjective())
-        {
-            if(ObjectiveController.Instance.IsObjectiveDone())
-            {
-                CinemaController.Instance.StartCinematic();
-
-                CinemaController.Instance.DetachCameraFromPlayer();
-
-                CinemaController.Instance.MoveCamera(new Vector3(3.5f, 15, -16f), this.transform);
-
-                yield return new WaitForSeconds(2f);
-
-                CinemaController.Instance.FadeIn();
-
-                DialogSystem.Instance.StartDialogSystem(new string[] { "Thank you for playing!", "You can now use SHIFT to sprint!"});
-
-                ObjectiveController.Instance.FinishObjective();
-
-                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAbilities>().AbilityRun = true;
-
-                CinemaController.Instance.FadeOut();
-
-                yield return new WaitForSeconds(1.2f);
-
-                CinemaController.Instance.EndCinematic();
-                Destroy(this.gameObject, 1f);
-                CinemaController.Instance.FadeIn();
-
-                yield break;
-            }
-        }
-        else
-        {
-            ObjectiveController.Instance.SetObjective(ObjectiveController.Instance.gameObject.AddComponent<ObjectiveCollectMushrooms>());
-        }
+        // destroy this npc
+        Destroy(this.gameObject);
 
 
 
-        
 
         yield break;
     }
+
+    public void ExecuteInteraction()
+    {
+        // now heres the deal...this guy needs multiple dialogs
+
+        // 1 => First Meet, gives you the quest
+        // 2 => Maybe you talk to him when you already have the quest but its not completed yet
+        // 3 => You talk to him when you completed his quests
+
+        if(CanGiveQuest == true)
+        {
+            StartCoroutine(GetQuest());
+        }
+        else if(ObjectiveController.Instance.HasObjective() && ObjectiveController.Instance.IsObjectiveDone())
+        {
+            StartCoroutine(TurnInQuest());
+        }else if(ObjectiveController.Instance.HasObjective() && ObjectiveController.Instance.IsObjectiveDone() == false)
+        {
+            StartCoroutine(TalkWhileQuest());
+        }else if(ObjectiveController.Instance.HasObjective() == false)
+        {
+            StartCoroutine(ThankDemoText());
+        }
+
+    }
+
+  
 
     public string GetInteractionKey()
     {
@@ -107,5 +103,13 @@ public class NPC_ForrestGurdian : MonoBehaviour, IInteractable
     public void InitInteractions(Interactable parent)
     {
         myParentInteractable = parent;
+    }
+
+    public void SetDialog(string[] lines)
+    {
+        //DialogBeforeQuest = lines;
+        DialogBeforeQuest = new string[] { "Welcome to our Forrest!", "I need your help!", "Please bring me some mushrooms!" };
+        DialogWhileQuest = new string[] { "The Mushrooms have a read head!", "You should be able to spot them!", "They are almost as big as you haha..." };
+        DialogAfterQuest = new string[] { "You found the mushrooms! Thanks!", "You can now SPRINT by using SHIFT", "Thank you for playing! (talk to me again)"};
     }
 }

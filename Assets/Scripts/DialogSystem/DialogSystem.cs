@@ -24,11 +24,15 @@ public class DialogSystem : MonoBehaviour
 
     #region DialogSystem
 
+    public delegate void CloseDialogSystem();
+    public static event CloseDialogSystem OnDialogClosed;
+
     [SerializeField]
     public GameObject UIDialogOverlay;
 
    
     public TMPro.TextMeshProUGUI DialogText;
+    public GameObject cursor;
 
     public string[] DialogToPrint;
     public int LinePointer = 0;
@@ -41,6 +45,8 @@ public class DialogSystem : MonoBehaviour
 
     public void StartDialogSystem(string[] lines)
     {
+        IsDialogAtEndOfLine = false;
+
         UIDialogOverlay.SetActive(true);
         IsCurrentlyDialogOpen = true;
         DialogToPrint = lines;
@@ -51,22 +57,15 @@ public class DialogSystem : MonoBehaviour
 
     public void EndDialogSystem()
     {
-        StartCoroutine(nameof(CinematicEnd));
+        // now here we need the event
+        // fire event that the Dialog has been closed
+        // and whoever wants to know that, gets notified
+        IsDialogAtEndOfLine = false;
+
         UIDialogOverlay.SetActive(false);
         IsCurrentlyDialogOpen = false;
-    }
 
-    public IEnumerator CinematicEnd()
-    {
-        CinemaController.Instance.FadeOut();
-
-        yield return new WaitForSeconds(1.2f);
-
-        CinemaController.Instance.EndCinematic();
-
-        CinemaController.Instance.FadeIn();
-
-        
+        OnDialogClosed();
     }
 
     private void PrintNextLine()
@@ -95,14 +94,30 @@ public class DialogSystem : MonoBehaviour
         }
     }
 
+    public bool IsDialogAtEndOfLine = false;
+
     public void Update()
     {
+        if(IsDialogAtEndOfLine == true)
+        {
+            cursor.SetActive(true);
+        }
+        else
+        {
+            cursor.SetActive(false);
+        }
+
         if(IsCurrentlyDialogOpen == true)
         {
-            if (Input.GetKeyUp(KeyCode.Space))
+            if(IsDialogAtEndOfLine == true)
             {
-                PrintNextLine();
+                if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    IsDialogAtEndOfLine = false;
+                    PrintNextLine();
+                }
             }
+            
         }
     }
 
@@ -119,6 +134,7 @@ public class DialogSystem : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
             LinePointer++;
+            IsDialogAtEndOfLine = true;
             yield break;
         }
     }
