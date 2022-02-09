@@ -35,12 +35,17 @@ public class DialogSystem : MonoBehaviour
 
     public bool IsCurrentlyDialogOpen = false;
 
+    public static int MaxLines = 3;
+    public static int MaxCharacters = 18;
+
+
     public void StartDialogSystem(string[] lines)
     {
         UIDialogOverlay.SetActive(true);
         IsCurrentlyDialogOpen = true;
         DialogToPrint = lines;
         LinePointer = 0;
+        DialogText.text = string.Empty;
         PrintNextLine();
     }
 
@@ -60,6 +65,8 @@ public class DialogSystem : MonoBehaviour
         CinemaController.Instance.EndCinematic();
 
         CinemaController.Instance.FadeIn();
+
+        
     }
 
     private void PrintNextLine()
@@ -71,8 +78,20 @@ public class DialogSystem : MonoBehaviour
         }
         else
         {
-            DialogText.text = DialogToPrint[LinePointer];
-            LinePointer++;
+            characterIndex = 0;
+
+            if(LinePointer < 3 && LinePointer > 0)
+            {
+                DialogText.text = DialogText.text + System.Environment.NewLine;
+            }
+            else
+            {
+                DialogText.text = string.Empty;
+            }
+
+            
+            StartCoroutine(nameof(PrintEachLetter));
+            
         }
     }
 
@@ -87,6 +106,23 @@ public class DialogSystem : MonoBehaviour
         }
     }
 
+    private int characterIndex = 0;
+
+    private IEnumerator PrintEachLetter()
+    {
+        while(LinePointer < DialogToPrint.Length)
+        {
+            while (characterIndex < DialogToPrint[LinePointer].Length)
+            {
+                DialogText.text = DialogText.text + DialogToPrint[LinePointer][characterIndex];
+                characterIndex++;
+                yield return new WaitForSeconds(0.05f);
+            }
+            LinePointer++;
+            yield break;
+        }
+    }
+        
 
     #endregion
 

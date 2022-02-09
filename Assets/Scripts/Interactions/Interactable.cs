@@ -6,7 +6,8 @@ public enum InteractableType
 {
     Sign,
     MushroomCollectable,
-    NPC
+    NPC,
+    QuestGiver
 }
 
 public class Interactable : MonoBehaviour
@@ -25,8 +26,8 @@ public class Interactable : MonoBehaviour
                 MyInteractions = this.gameObject.AddComponent<MushroomCollectable>();
                 break;
             case InteractableType.NPC:
-                MyInteractions = this.gameObject.AddComponent<NPCInteraction>();
-                NPCInteraction npc = MyInteractions as NPCInteraction;
+                MyInteractions = this.gameObject.AddComponent<NPC_ForrestGurdian>();
+                NPC_ForrestGurdian npc = MyInteractions as NPC_ForrestGurdian;
                 npc.InitNPCLines(dialogLines);
                 break;
         }

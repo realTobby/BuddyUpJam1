@@ -7,6 +7,7 @@ public class MushroomCollectable : MonoBehaviour, IInteractable
     private Interactable myParentInteractable;
     public void ExecuteInteraction()
     {
+        ObjectiveController.Instance.IncreaseCollection();
         Destroy(myParentInteractable.gameObject);
     }
 
