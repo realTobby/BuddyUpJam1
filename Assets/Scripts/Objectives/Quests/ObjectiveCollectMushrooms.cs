@@ -4,51 +4,40 @@ using UnityEngine;
 
 public class ObjectiveCollectMushrooms : MonoBehaviour, IObjective
 {
+    public QuestDataModel myQuestData;
+
     public int MaxMushrooms = 6;
     public int CurrentMushrooms = 0;
 
-   
-    public string GetObjectiveTitle()
+    public void Awake()
     {
-        return "Forrest Guardian needs your help!";
+        myQuestData = new QuestDataModel();
+        myQuestData.ID = 1;
+        myQuestData.Title = "The Forrest Guardian needs your help!";
+        myQuestData.Description = "Collect 6 Mushrooms!";
+        myQuestData.MaxCollected = 6;
+        myQuestData.CurrentCollected = 0;
+        myQuestData.CompletionText = "Return to the Forrest Guardian!";
+
     }
 
-    public string GetObjectiveText()
-    {
-        return "Collect 6 Mushrooms!";
-    }
+    public int GetQuestID() => myQuestData.ID;
 
-    public string GetCollectionText()
-    {
-        return CurrentMushrooms + " / " + MaxMushrooms;
-    }
+    public string GetObjectiveTitle() => myQuestData.Title;
 
-    public void IncreaseCollection()
-    {
-        CurrentMushrooms++;
-    }
+    public string GetObjectiveText() => myQuestData.Description;
 
-    public string GetObjectiveNPC()
-    {
-        return "Forrest Guardian";
-    }
+    public string GetCollectionText() => myQuestData.CurrentCollected + " / " + myQuestData.MaxCollected;
 
-    public bool CheckForQuestCompletion()
-    {
-        if(CurrentMushrooms >= MaxMushrooms)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    public void IncreaseCollection() => myQuestData.CurrentCollected += 1;
+
+    public string GetCompletionText() => myQuestData.CompletionText;
+
+    public bool CheckForQuestCompletion() => myQuestData.CurrentCollected >= myQuestData.MaxCollected;
 
     public void StartQuest()
     {
         var questList = GameObject.FindGameObjectWithTag("QUESTS");
-
-        questList.transform.GetChild(0).gameObject.SetActive(true);
+        questList.transform.GetChild(1).gameObject.SetActive(true);
     }
 }

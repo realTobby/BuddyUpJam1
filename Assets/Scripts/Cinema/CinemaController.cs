@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,12 +23,15 @@ public class CinemaController : MonoBehaviour
     {
         _instance = this;
 
-        DialogSystem.OnDialogClosed += EndCinematic;
+        DialogSystem.OnDialogClosed += EndCinematicMode;
 
     }
     #endregion
 
     #region CinemaController
+
+    public delegate void EndCinematic();
+    public static event EndCinematic OnCinematicEnd;
 
     public GameObject CinemaBorders;
 
@@ -36,6 +40,17 @@ public class CinemaController : MonoBehaviour
     public Animator FadeAnimator;
 
     public Vector3 OriginalCameraPosOnPlayer;
+
+    public void ActivateCinemaBorders()
+    {
+        CinemaBorders.SetActive(true);
+    }
+
+    public void DeactivateCinamaBorders()
+    {
+        CinemaBorders.SetActive(false);
+    }
+
 
     public void StartCinematic()
     {
@@ -69,9 +84,16 @@ public class CinemaController : MonoBehaviour
     }
 
 
-    public void EndCinematic()
+    public void EndCinematicMode()
     {
+        Debug.Log("Closing Cinema!");
         StartCoroutine(CloseCinema());
+
+        if (OnCinematicEnd != null)
+            OnCinematicEnd();
+        else
+            Debug.Log("No one cares about OnCinematicEnd right now...");
+        
     }
 
     private IEnumerator CloseCinema()

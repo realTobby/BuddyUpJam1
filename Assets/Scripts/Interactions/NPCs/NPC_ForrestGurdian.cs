@@ -48,7 +48,7 @@ public class NPC_ForrestGurdian : MonoBehaviour, IInteractable
     {
         CinemaController.Instance.StartCinematic(new Vector3(3.5f, 15, -16f), this.transform);
         yield return new WaitForSeconds(0.5f);
-        DialogSystem.Instance.StartDialogSystem(new string[] {"You reached the true ending!", "Watch me change my form lol", "(Try talking to the red wall)"});
+        DialogSystem.Instance.StartDialogSystem(new string[] {"You reached the true ending!", "(Try talking to the red wall)"});
 
         // destroy this npc
         Destroy(this.gameObject);
@@ -109,7 +109,7 @@ public class NPC_ForrestGurdian : MonoBehaviour, IInteractable
     {
         //DialogBeforeQuest = lines;
         DialogBeforeQuest = new string[] { "Welcome to our Forrest!", "I need your help!", "Please bring me some mushrooms!" };
-        DialogWhileQuest = new string[] { "The Mushrooms have a read head!", "You should be able to spot them!", "They are almost as big as you haha..." };
+        DialogWhileQuest = new string[] { "The Mushrooms have a red head!", "You should be able to spot them!", "They are almost as big as you!" };
         DialogAfterQuest = new string[] { "You found the mushrooms! Thanks!", "You can now SPRINT by using SHIFT", "Thank you for playing! (talk to me again)"};
     }
 }

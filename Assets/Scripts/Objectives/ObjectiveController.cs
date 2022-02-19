@@ -61,6 +61,8 @@ public class ObjectiveController : MonoBehaviour
         CurrentObjective.IncreaseCollection();
     }
 
+    public int GetQuestID() => CurrentObjective.GetQuestID();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,7 +86,7 @@ public class ObjectiveController : MonoBehaviour
                 else if(CurrentObjective.CheckForQuestCompletion() == true)
                 {
                     objectiveText.color = Color.green;
-                    objectiveText.text = CurrentObjective.GetObjectiveTitle() + System.Environment.NewLine + CurrentObjective.GetObjectiveText() + System.Environment.NewLine + CurrentObjective.GetCollectionText() + System.Environment.NewLine + "return to " + CurrentObjective.GetObjectiveNPC();
+                    objectiveText.text = CurrentObjective.GetObjectiveTitle() + System.Environment.NewLine + CurrentObjective.GetCompletionText();
                 }
 
                 

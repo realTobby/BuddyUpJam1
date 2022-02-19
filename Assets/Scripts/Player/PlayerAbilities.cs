@@ -18,7 +18,16 @@ public class PlayerAbilities : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        
+
     }
+
+    private void Start()
+    {
+        ObjectiveController.Instance.SetObjective(ObjectiveController.Instance.gameObject.AddComponent<ObjectiveFindForrestGuardian>());
+    }
+
     #endregion
 
     #region PlayerAbilies
@@ -26,6 +35,8 @@ public class PlayerAbilities : MonoBehaviour
     public bool AbilityJump = true;
 
     public bool AbilityRun = false;
+
+    
 
 
     #endregion

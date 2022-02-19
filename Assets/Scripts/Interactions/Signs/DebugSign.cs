@@ -9,17 +9,32 @@ public class DebugSign : MonoBehaviour, IInteractable
 
     public string[] dialog;
 
+    private IEnumerator DEMOEND()
+    {
+        yield return new WaitForSeconds(1);
+        CinemaController.Instance.FadeOut();
+        yield return new WaitForSeconds(3);
+        Process.Start("https://itch.io/jam/buddy-up-jam-2022/entriess");
+    }
+
+    public void CloseGame()
+    {
+        StartCoroutine(DEMOEND());
+    }
+
     private IEnumerator CinematicDialog()
     {
         CinemaController.Instance.StartCinematic();
         yield return new WaitForSeconds(0.5f);
         DialogSystem.Instance.StartDialogSystem(dialog);
-        //Process.Start("https://itch.io/jam/buddy-up-jam-2022");
+        
         yield break;
     }
 
     public void ExecuteInteraction()
     {
+        UnityEngine.Debug.Log("Assigning OnCinematicEnd event!");
+        CinemaController.OnCinematicEnd += CloseGame;
         StartCoroutine(CinematicDialog());
     }
 
