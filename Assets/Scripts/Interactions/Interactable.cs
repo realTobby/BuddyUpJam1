@@ -7,7 +7,8 @@ public enum InteractableType
     Sign,
     MushroomCollectable,
     NPC,
-    QuestGiver
+    QuestGiver,
+    SprintSign
 }
 
 public class Interactable : MonoBehaviour
@@ -34,6 +35,11 @@ public class Interactable : MonoBehaviour
                 MyInteractions = this.gameObject.AddComponent<DebugSign>();
                 DebugSign sign = MyInteractions as DebugSign;
                 sign.SetDialog(dialogLines);
+                break;
+            case InteractableType.SprintSign:
+                MyInteractions = this.gameObject.AddComponent<SprintSign>();
+                SprintSign sprints = MyInteractions as SprintSign;
+                sprints.SetDialog(dialogLines);
                 break;
         }
         MyInteractions.InitInteractions(this);

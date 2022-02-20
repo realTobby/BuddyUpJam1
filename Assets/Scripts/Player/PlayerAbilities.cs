@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAbilities : MonoBehaviour
 {
+   
+
     #region Singleton
     private static PlayerAbilities _instance = null;
 
@@ -25,7 +27,10 @@ public class PlayerAbilities : MonoBehaviour
 
     private void Start()
     {
-        ObjectiveController.Instance.SetObjective(ObjectiveController.Instance.gameObject.AddComponent<ObjectiveFindForrestGuardian>());
+       
+
+
+
     }
 
     #endregion

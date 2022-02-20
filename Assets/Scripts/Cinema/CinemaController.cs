@@ -39,7 +39,19 @@ public class CinemaController : MonoBehaviour
 
     public Animator FadeAnimator;
 
+    public GameObject UI_CROSSHAIR;
+
     public Vector3 OriginalCameraPosOnPlayer;
+
+    public void DisableCrosshair()
+    {
+        UI_CROSSHAIR.SetActive(false);
+    }
+
+    public void EnableCrosshair()
+    {
+        UI_CROSSHAIR.SetActive(true);
+    }
 
     public void ActivateCinemaBorders()
     {
@@ -64,9 +76,10 @@ public class CinemaController : MonoBehaviour
 
     private IEnumerator InitCinema(Vector3 cameraPos, Transform lookAtTarget)
     {
+        DisableCrosshair();
         DetachCameraFromPlayer();
         FadeOut();
-        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().IsInControl = false;
         yield return new WaitForSeconds(0.5f);
         CinemaBorders.SetActive(true);
         MoveCamera(cameraPos, lookAtTarget);
@@ -75,8 +88,9 @@ public class CinemaController : MonoBehaviour
 
     private IEnumerator InitCinema()
     {
+        DisableCrosshair();
         DetachCameraFromPlayer();
-        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().IsInControl = false;
         FadeOut();
         yield return new WaitForSeconds(0.5f);
         CinemaBorders.SetActive(true);
@@ -86,14 +100,10 @@ public class CinemaController : MonoBehaviour
 
     public void EndCinematicMode()
     {
-        Debug.Log("Closing Cinema!");
         StartCoroutine(CloseCinema());
 
         if (OnCinematicEnd != null)
             OnCinematicEnd();
-        else
-            Debug.Log("No one cares about OnCinematicEnd right now...");
-        
     }
 
     private IEnumerator CloseCinema()
@@ -102,8 +112,9 @@ public class CinemaController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         CinemaBorders.SetActive(false);
         AttachCameraToPlayer();
-        GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>().IsInControl = true;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().IsInControl = true;
         FadeIn();
+        EnableCrosshair();
     }
 
     public void FadeOut()

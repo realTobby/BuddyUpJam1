@@ -48,13 +48,7 @@ public class NPC_ForrestGurdian : MonoBehaviour, IInteractable
     {
         CinemaController.Instance.StartCinematic(new Vector3(3.5f, 15, -16f), this.transform);
         yield return new WaitForSeconds(0.5f);
-        DialogSystem.Instance.StartDialogSystem(new string[] {"You reached the true ending!", "(Try talking to the red wall)"});
-
-        // destroy this npc
-        Destroy(this.gameObject);
-
-
-
+        DialogSystem.Instance.StartDialogSystem(new string[] {"Now that you know how to SPRINT", "Why not use it?", "Maybe to get over a hole?", "Seek the Turtle!"});
 
         yield break;
     }
@@ -108,8 +102,8 @@ public class NPC_ForrestGurdian : MonoBehaviour, IInteractable
     public void SetDialog(string[] lines)
     {
         //DialogBeforeQuest = lines;
-        DialogBeforeQuest = new string[] { "Welcome to our Forrest!", "I need your help!", "Please bring me some mushrooms!" };
+        DialogBeforeQuest = new string[] { "Welcome to our Forrest!", "I need your help!", "Please bring me some red mushrooms!", "I dont like the brown ones!" };
         DialogWhileQuest = new string[] { "The Mushrooms have a red head!", "You should be able to spot them!", "They are almost as big as you!" };
-        DialogAfterQuest = new string[] { "You found the mushrooms! Thanks!", "You can now SPRINT by using SHIFT", "Thank you for playing! (talk to me again)"};
+        DialogAfterQuest = new string[] { "You found the mushrooms! Thanks!", "You can now SPRINT by using SHIFT", "Talk to me when you are ready!"};
     }
 }

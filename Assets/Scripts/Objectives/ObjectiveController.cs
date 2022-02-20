@@ -52,9 +52,15 @@ public class ObjectiveController : MonoBehaviour
 
     public void SetObjective(IObjective quest)
     {
+        if(CurrentObjective != null)
+        {
+            CurrentObjective.EndQuest();
+        }
+
         CurrentObjective = quest;
         CurrentObjective.StartQuest();
     }
+
 
     public void IncreaseCollection()
     {

@@ -14,7 +14,7 @@ public class ObjectiveCollectMushrooms : MonoBehaviour, IObjective
         myQuestData = new QuestDataModel();
         myQuestData.ID = 1;
         myQuestData.Title = "The Forrest Guardian needs your help!";
-        myQuestData.Description = "Collect 6 Mushrooms!";
+        myQuestData.Description = "Collect 6 RED Mushrooms!";
         myQuestData.MaxCollected = 6;
         myQuestData.CurrentCollected = 0;
         myQuestData.CompletionText = "Return to the Forrest Guardian!";
@@ -38,6 +38,14 @@ public class ObjectiveCollectMushrooms : MonoBehaviour, IObjective
     public void StartQuest()
     {
         var questList = GameObject.FindGameObjectWithTag("QUESTS");
-        questList.transform.GetChild(1).gameObject.SetActive(true);
+        questList.transform.GetChild(0).gameObject.SetActive(true);
     }
+
+    public void EndQuest()
+    {
+        var questList = GameObject.FindGameObjectWithTag("QUESTS");
+        questList.transform.GetChild(0).gameObject.SetActive(false);
+        Destroy(this);
+    }
+
 }

@@ -24,6 +24,9 @@ public class DialogSystem : MonoBehaviour
 
     #region DialogSystem
 
+    public AudioSource nextLetter;
+    public AudioSource nextLine;
+
     public delegate void CloseDialogSystem();
     public static event CloseDialogSystem OnDialogClosed;
 
@@ -114,6 +117,7 @@ public class DialogSystem : MonoBehaviour
                 if (Input.GetKeyUp(KeyCode.Space))
                 {
                     IsDialogAtEndOfLine = false;
+                    nextLine.Play();
                     PrintNextLine();
                 }
             }
@@ -131,7 +135,9 @@ public class DialogSystem : MonoBehaviour
             {
                 DialogText.text = DialogText.text + DialogToPrint[LinePointer][characterIndex];
                 characterIndex++;
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.09f);
+                nextLetter.Play();
+                yield return new WaitForSeconds(0.01f);
             }
             LinePointer++;
             IsDialogAtEndOfLine = true;

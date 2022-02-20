@@ -12,11 +12,11 @@ public class WorldInteraction : MonoBehaviour
 
     [SerializeField] Interactable currentInteractionObject;
 
-    [SerializeField] FirstPersonController myPlayer;
+    [SerializeField] PlayerController myPlayer;
 
     private void Awake()
     {
-        myPlayer = this.gameObject.GetComponent<FirstPersonController>();
+        myPlayer = this.gameObject.GetComponent<PlayerController>();
     }
 
     // Start is called before the first frame update

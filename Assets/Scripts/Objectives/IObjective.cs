@@ -10,6 +10,7 @@ public interface IObjective
     string GetObjectiveTitle();
     string GetObjectiveText();
     void StartQuest();
+    void EndQuest();
     void IncreaseCollection();
     bool CheckForQuestCompletion();
     string GetCompletionText();
