@@ -61,15 +61,12 @@ public class PlayerController : MonoBehaviour
         // fade out
         CinemaController.Instance.FadeOut();
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.2f);
 
         CinemaController.Instance.AttachCameraToPlayer();
 
-        // fade in
-        CinemaController.Instance.FadeIn();
+        EventSystem.Instance.StartConversation(new string[] { "Test of the EventSystem :)" });
 
-        IsInControl = true;
-        CinemaController.Instance.EnableCrosshair();
         yield break;
 
     }

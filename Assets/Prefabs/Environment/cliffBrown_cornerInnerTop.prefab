@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 924334442407661959}
   - component: {fileID: 598933561545995765}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: First
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1414838903616347346}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 4611004791450487187}
   - component: {fileID: 4611004791453354419}
   - component: {fileID: 4611004791452257139}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cliffBrown_cornerInnerTop
-  m_TagString: Untagged
+  m_TagString: EnvironmentWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6136710074420775284}
   - component: {fileID: 9022772355794629798}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Second
   m_TagString: Untagged
   m_Icon: {fileID: 0}

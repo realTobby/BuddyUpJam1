@@ -5,7 +5,6 @@ using UnityEngine;
 public interface IObjective
 {
     int GetQuestID();
-
     string GetCollectionText();
     string GetObjectiveTitle();
     string GetObjectiveText();

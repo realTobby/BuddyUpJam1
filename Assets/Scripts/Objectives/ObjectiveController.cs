@@ -78,7 +78,7 @@ public class ObjectiveController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(DialogSystem.Instance.IsCurrentlyDialogOpen == false)
+        if(DialogSystem.Instance.IsCurrentlyDialogOpen == false && CinemaController.Instance.IsCinematic == false)
         {
             if(CurrentObjective != null)
             {
@@ -95,7 +95,11 @@ public class ObjectiveController : MonoBehaviour
                     objectiveText.text = CurrentObjective.GetObjectiveTitle() + System.Environment.NewLine + CurrentObjective.GetCompletionText();
                 }
 
-                
+
+            }
+            else
+            {
+                OBJECTIVE_UI.SetActive(false);
             }
 
         }

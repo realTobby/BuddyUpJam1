@@ -19,6 +19,9 @@ public class DialogSystem : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        CinemaController.OnCinematicOpen += StartDialogSystem;
+
     }
     #endregion
 
@@ -45,11 +48,21 @@ public class DialogSystem : MonoBehaviour
     public static int MaxLines = 3;
     public static int MaxCharacters = 18;
 
+    public void OpenTextbox()
+    {
+        UIDialogOverlay.SetActive(true);
+        DialogText.text = string.Empty;
+    }
+
+    public void CloseTextbox()
+    {
+        UIDialogOverlay.SetActive(false);
+    }
 
     public void StartDialogSystem(string[] lines)
     {
+        Debug.Log("I GOT CALLED???");
         IsDialogAtEndOfLine = false;
-
         UIDialogOverlay.SetActive(true);
         IsCurrentlyDialogOpen = true;
         DialogToPrint = lines;

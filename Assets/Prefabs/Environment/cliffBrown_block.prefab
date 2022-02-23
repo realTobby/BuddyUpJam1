@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6626169798305870561}
   - component: {fileID: 6626169798304739361}
   - component: {fileID: 6472175120015821971}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cliffBrown_block
-  m_TagString: Untagged
+  m_TagString: EnvironmentWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

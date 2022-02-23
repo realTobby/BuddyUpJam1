@@ -2,67 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum InteractableType
-{
-    Sign,
-    MushroomCollectable,
-    NPC,
-    QuestGiver,
-    SprintSign
-}
 
 public class Interactable : MonoBehaviour
 {
-    public InteractableType MyInteractableType;
+    private IInteractable _interaction;
 
-    private IInteractable MyInteractions;
+    public string InteractionKey = "F";
+    public string InteractionTitle = "Empty";
+    public string InteractionVerb = "Inspect";
 
-    [SerializeField] string[] dialogLines;
-
-    public void Awake()
+    public void SetInteraction(IInteractable interaction)
     {
-        switch(MyInteractableType)
-        {
-            case InteractableType.MushroomCollectable:
-                MyInteractions = this.gameObject.AddComponent<MushroomCollectable>();
-                break;
-            case InteractableType.NPC:
-                MyInteractions = this.gameObject.AddComponent<NPC_ForrestGurdian>();
-                NPC_ForrestGurdian npc = MyInteractions as NPC_ForrestGurdian;
-                npc.SetDialog(dialogLines);
-                break;
-            case InteractableType.Sign:
-                MyInteractions = this.gameObject.AddComponent<DebugSign>();
-                DebugSign sign = MyInteractions as DebugSign;
-                sign.SetDialog(dialogLines);
-                break;
-            case InteractableType.SprintSign:
-                MyInteractions = this.gameObject.AddComponent<SprintSign>();
-                SprintSign sprints = MyInteractions as SprintSign;
-                sprints.SetDialog(dialogLines);
-                break;
-        }
-        MyInteractions.InitInteractions(this);
+        _interaction = interaction;
     }
 
     public string GetInteractionKey()
     {
-        return MyInteractions.GetInteractionKey();
+        return InteractionKey;
     }
 
     public string GetInteractionTitle()
     {
-        return MyInteractions.GetInteractionTitle();
+        return InteractionTitle;
     }
 
     public string GetInteractionType()
     {
-        return MyInteractions.GetInteractionType();
+        return InteractionVerb;
     }
 
     public void ExecuteInteraction()
     {
-        MyInteractions.ExecuteInteraction();
+        _interaction.ExecuteInteraction();
     }
 
 }
